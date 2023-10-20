@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model Funtions {
+  id              Int     @id @default(autoincrement())
+  name            String?
+  returnType      String?
+  detail          String?
+  status          Boolean @default(true)
+
+  //RelationShip | ONE TO MANY
+  parameters      Parameters[]
+ 
+}
+
+model Parameters{
+  id              Int     @id @default(autoincrement())
+  description     String?
+  type            String?
+  defaultValue    String?
+  functionId      String?
+
+  //RelationShip | ONE TO ONE FK
+  user   Funtions    @relation(fields: [userId], references: [id])
+  userId Int
+
+}
